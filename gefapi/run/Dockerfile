@@ -6,4 +6,5 @@ COPY requirements.txt /project/requirements.txt
 
 RUN pip install -r /project/requirements.txt
 
-USER $USER
+RUN chown nobody:nogroup "celerybeat-schedule"
+USER nobody
