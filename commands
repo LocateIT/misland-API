@@ -1,0 +1,32 @@
+initialize gef database on cmd
+----------------------------------------------------
+-docker exec -it gef-api-database psql -U postgres gef
+----------------------------------------------------
+
+
+update a postgres table
+--------------------------
+UPDATE courses
+SET published_date = '2020-08-01' 
+WHERE course_id = 3;
+----------------------------
+
+
+run gefapi
+----------------------------
+~gefapi.sh develop
+----------------------------
+
+
+install latest updates of qgis plugin
+------------------------------
+~invoke plugin-install
+-------------------------------
+
+
+notes
+------
+-ensure script_log id is serial datatype and primary key constraint
+-set entrypoint.sh and gefapi.sh from CRLF to LF line endings using Visual Studio or Gitbash
+-set entrypoint.sh from #!/bin/bash to #!/bin/sh at the top
+-use encode.py to encode google earth engine service key json to base64

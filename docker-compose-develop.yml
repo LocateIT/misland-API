@@ -60,7 +60,9 @@ services:
           - develop.env
         ports:
           - 5000:5000
-        restart: always
+        restart: always          
+        volumes:
+          - /var/lib/registry:/var/lib/registry
 
     redis:
         image: redis

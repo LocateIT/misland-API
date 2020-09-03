@@ -90,5 +90,3 @@ trends_api
 .ropeproject
 
 develop.env
-encode.py
-commands
