@@ -21,6 +21,7 @@ RUN cd /opt/$NAME && pip install -r requirements.txt
 COPY entrypoint.sh /opt/$NAME/entrypoint.sh
 COPY main.py /opt/$NAME/main.py
 COPY gunicorn.py /opt/$NAME/gunicorn.py
+# COPY config.json /root/.docker/config.json
 
 # Copy the application folder inside the container
 WORKDIR /opt/$NAME
@@ -28,12 +29,13 @@ WORKDIR /opt/$NAME
 COPY ./gefapi /opt/$NAME/gefapi
 COPY ./migrations /opt/$NAME/migrations
 COPY ./tests /opt/$NAME/tests
-RUN chown $USER:$USER /opt/$NAME
-
+RUN chown -R $USER:$USER /opt/$NAME
+RUN chown -R  $USER:$USER /var/log/
+RUN chown -R  $USER:$USER /var/run/
 # Tell Docker we are going to use this ports
 EXPOSE 3000
 USER root
-#USER $USER
+# USER $USER
 
 # Launch script
 ENTRYPOINT ["sh","./entrypoint.sh"]
