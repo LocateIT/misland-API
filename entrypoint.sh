@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 
 case "$1" in
     develop)

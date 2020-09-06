@@ -1,10 +1,9 @@
-
 import os
 from datetime import timedelta
 
 SETTINGS = {
     'logging': {
-        'level': 'DEBUG'
+        'level': 'INFO'
     },
     'service': {
         'port': 3000

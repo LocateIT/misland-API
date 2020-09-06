@@ -8,16 +8,13 @@ import os
 import json
 import logging
 
-import rollbar
-import rollbar.contrib.flask
-
-from flask import Flask, request, current_app, got_request_exception
+from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS, cross_origin
 from gefapi.config import SETTINGS
 from gefapi.celery import make_celery
-
+from flask_jwt import JWTError
 
 logging.basicConfig(
     level=SETTINGS.get('logging', {}).get('level'),
@@ -30,23 +27,7 @@ logging.basicConfig(
 app = Flask(__name__)
 CORS(app)
 
-@app.before_first_request
-def init_rollbar():
-    """init rollbar module"""
-    rollbar.init(
-        SETTINGS.get('ROLLBAR_SERVER_TOKEN'),
-        # environment name
-        os.getenv('ENVIRONMENT'),
-        # server root directory, makes tracebacks prettier
-        root=os.path.dirname(os.path.realpath(__file__)),
-        # flask already sets up logging
-        allow_logging_basic_config=False)
-
-    # send exceptions from `app` to rollbar, using flask's signal system.
-    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
-
 # Config
-
 app.config['SQLALCHEMY_DATABASE_URI'] = SETTINGS.get('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = SETTINGS.get('SECRET_KEY')
 app.config['UPLOAD_FOLDER'] = SETTINGS.get('UPLOAD_FOLDER')
@@ -55,6 +36,7 @@ app.config['JWT_AUTH_HEADER_PREFIX'] = SETTINGS.get('JWT_AUTH_HEADER_PREFIX')
 app.config['JWT_EXPIRATION_DELTA'] = SETTINGS.get('JWT_EXPIRATION_DELTA')
 app.config['CELERY_BROKER_URL'] = SETTINGS.get('CELERY_BROKER_URL')
 app.config['CELERY_RESULT_BACKEND'] = SETTINGS.get('CELERY_RESULT_BACKEND')
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Database
 db = SQLAlchemy(app)

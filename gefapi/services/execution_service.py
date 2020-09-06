@@ -81,6 +81,8 @@ class ExecutionService(object):
         if script.status != 'SUCCESS':
             raise ScriptStateNotValid(message='Script with id '+script_id+' is not BUILT')
         execution = Execution(script_id=script.id, params=params, user_id=user.id)
+        logging.error(params)
+        logging.debug(params)
         try:
             logging.info('[DB]: ADD')
             db.session.add(execution)
@@ -91,6 +93,7 @@ class ExecutionService(object):
         try:
             environment = SETTINGS.get('environment', {})
             environment['EXECUTION_ID'] = execution.id
+            logging.debug(params)
             param_serial = json.dumps(params).encode('utf-8')
             param_serial = str(base64.b64encode(param_serial)).replace('\'', '')
             logging.debug(param_serial)
