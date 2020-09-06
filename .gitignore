@@ -90,3 +90,4 @@ trends_api
 .ropeproject
 
 develop.env
+auth.json

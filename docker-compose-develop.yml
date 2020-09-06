@@ -54,15 +54,15 @@ services:
       restart: always
 
     registry:
-        image: registry:2.6.1
-        container_name: gef-api-registry
-        env_file:
-          - develop.env
-        ports:
-          - 5000:5000
-        restart: always          
-        volumes:
-          - /var/lib/registry:/var/lib/registry
+      image: registry:2.6.1
+      container_name: gef-api-registry
+      env_file:
+        - develop.env
+      ports:
+        - 5000:5000
+      restart: always          
+      # volumes:
+      #   - /var/lib/registry:/var/lib/registry
 
     redis:
         image: redis

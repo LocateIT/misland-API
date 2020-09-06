@@ -1,10 +1,8 @@
-FROM vizzuality/gef-environment:0.0.7
+FROM conservationinternational/trends.earth-environment:0.1.1
 
-
-COPY src /project/gefcore/script
 COPY requirements.txt /project/requirements.txt
-
 RUN pip install -r /project/requirements.txt
 
-# RUN chown nobody:nogroup "celerybeat-schedule"
-USER $USER
+COPY src /project/gefcore/script
+
+USER root

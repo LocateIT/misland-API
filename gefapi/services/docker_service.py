@@ -129,18 +129,22 @@ class DockerService(object):
     @staticmethod
     def run(execution_id, image, environment, params):
         """Run image with environment"""
-        logging.info('Running %s image with params %s' % (image, params))
+        # logging.info('Running %s image with params %s' % (image, params))
         container = None
         try:
             environment['ENV'] = 'prod'
             command = './entrypoint.sh ' + params
+            
 
-            if os.getenv('ENVIRONMENT') != 'dev':
-                env = [k+'='+v for k,v in environment.items()]
-                container = docker_client.services.create(image=REGISTRY_URL+'/'+image, command=command, env=env, name='execution-'+str(execution_id), restart_policy=docker.types.RestartPolicy(condition='on-failure', delay=10, max_attempts=2, window=0))
-            else:
-                logging.info('the registry url is '+REGISTRY_URL)
-                container = docker_client.containers.run(image=REGISTRY_URL+'/'+image, command=params, environment=environment, detach=True, name='execution-'+str(execution_id))
+            # if os.getenv('ENVIRONMENT') != 'dev':
+            env = [k+'='+v for k,v in environment.items()]
+            logging.debug(env)
+
+            # logging.info(env)
+            container = docker_client.services.create(image=REGISTRY_URL+'/'+image, command=command, env=env, name='execution-'+str(execution_id), restart_policy=docker.types.RestartPolicy(condition='on-failure', delay=10, max_attempts=2, window=0))
+            # else:
+                # container = docker_client.containers.run(image='localhost:5000'+'/'+image, command=params, environment=environment, detach=True, name='execution-'+str(execution_id))
+                # logging.info(REGISTRY_URL+'/'+image)
         except docker.errors.ImageNotFound as error:
             logging.error('Image not found', error)
             return False, error
