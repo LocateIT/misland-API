@@ -17,7 +17,9 @@ SETTINGS = {
         'SPARKPOST_API_KEY': os.getenv('SPARKPOST_API_KEY'),
         'API_URL': os.getenv('API_URL'),
         'API_USER': os.getenv('API_USER'),
-        'API_PASSWORD': os.getenv('API_PASSWORD')
+        'API_PASSWORD': os.getenv('API_PASSWORD'),
+        'EMAIL_USER':os.getenv('EMAIL_USER'),
+        'EMAIL_PASSWORD':os.getenv('EMAIL_PASSWORD')
     },
     'ROLES': ['ADMIN', 'USER'],
     'SQLALCHEMY_DATABASE_URI': 'postgresql://'+os.getenv('DATABASE_ENV_POSTGRES_USER')+':'+os.getenv('DATABASE_ENV_POSTGRES_PASSWORD')+'@'+os.getenv('DATABASE_PORT_5432_TCP_ADDR')+':'+os.getenv('DATABASE_PORT_5432_TCP_PORT')+'/'+os.getenv('DATABASE_ENV_POSTGRES_DB'),
