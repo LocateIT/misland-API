@@ -3,6 +3,7 @@
 case "$1" in
     develop)
         echo "Running Development Server"
+        FLASK_APP=main.py flask db upgrade
         exec python main.py
         ;;
     test)
@@ -10,6 +11,7 @@ case "$1" in
         ;;
     start)
         echo "Running Start"
+        FLASK_APP=main.py flask db upgrade
         exec gunicorn -c gunicorn.py gefapi.wsgi:application
         ;;
     worker)
