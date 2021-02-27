@@ -51,7 +51,7 @@ class UserService(object):
                 email = EmailService.send_html_email(
                     recipients=[user.email],
                     html='<p>User: ' + user.email + '</p><p>Password: ' + password + '</p>',
-                    subject='[LDMS] User created'
+                    subject='[MISLAND] User created'
                 )
                 print(email)
                 
@@ -101,7 +101,7 @@ class UserService(object):
                 email = EmailService.send_html_email(
                     recipients=[user.email],
                     html='<p>User: ' + user.email + '</p><p>Password: ' + password + '</p>',
-                    subject='[LDMS] Recover password'
+                    subject='[MISLAND] Recover password'
                 )
             except EmailError as error:
                 raise error
