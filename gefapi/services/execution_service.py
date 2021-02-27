@@ -18,7 +18,7 @@ from gefapi.config import SETTINGS
 from gefapi.errors import ExecutionNotFound, ScriptNotFound, ScriptStateNotValid
 
 
-EXECUTION_FINISHED_MAIL_CONTENT = "<p>Thank you for using the LDMS. The below task has {}. More details on this task are below: </p>\
+EXECUTION_FINISHED_MAIL_CONTENT = "<p>Thank you for using the MISLAND. The below task has {}. More details on this task are below: </p>\
                                     <ul><li>Task name: {}</li> \
                                     <li>Job: {}</li> \
                                     <li>Task ID: {}</li> \
@@ -27,7 +27,7 @@ EXECUTION_FINISHED_MAIL_CONTENT = "<p>Thank you for using the LDMS. The below ta
                                     <li>Status: {}</li></ul> \
                                     <p>For more information, and to view the results, click the \"See Google Earth Engine tasks\" button in the QGIS plugin.</p> \
                                     <p>Thank you, </br> \
-                                    The LDMS Team</p>"
+                                    The MISLAND Team</p>"
 
 
 def dict_to_query(params):
@@ -147,7 +147,7 @@ class ExecutionService(object):
                 email = EmailService.send_html_email(
                     recipients=[user.email],
                     html=EXECUTION_FINISHED_MAIL_CONTENT.format(status, execution.params.get('task_name'), script.name, str(execution.id), execution.start_date, execution.end_date, status),
-                    subject='[LDMS] Execution finished'
+                    subject='[MISLAND] Execution finished'
                 )
         if progress is not None:
             execution.progress = progress

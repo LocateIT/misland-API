@@ -30,7 +30,7 @@ class EmailService(object):
     """MailService Class"""
     
     @staticmethod
-    def send_html_email(recipients=[], html='', sender=app.config.get("MAIL_USERNAME"), subject='[LDMS] Undefined Subject'):
+    def send_html_email(recipients=[], html='', sender=app.config.get("MAIL_USERNAME"), subject='[MISLAND] Undefined Subject'):
         try:
             
             with app.app_context():
