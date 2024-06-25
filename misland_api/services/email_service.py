@@ -6,11 +6,14 @@ from __future__ import print_function
 
 import logging
 
+from misland_api.config import SETTINGS
 from misland_api.errors import EmailError
 # from sparkpost import SparkPost
 from flask import Flask
 from flask_mail import Mail, Message
 import os
+
+EMAIL_CONFIGS = SETTINGS.get('environment', {})
 
 app = Flask(__name__)
 
@@ -19,8 +22,8 @@ mail_settings = {
     "MAIL_PORT": 465,
     "MAIL_USE_TLS": False,
     "MAIL_USE_SSL": True,
-    "MAIL_USERNAME": os.environ['EMAIL_USER'],
-    "MAIL_PASSWORD": os.environ['EMAIL_PASSWORD']
+    "MAIL_USERNAME": EMAIL_CONFIGS['EMAIL_USER'],
+    "MAIL_PASSWORD": EMAIL_CONFIGS['EMAIL_PASSWORD']
 }
 
 app.config.update(mail_settings)

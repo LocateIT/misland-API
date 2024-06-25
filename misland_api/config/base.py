@@ -16,7 +16,7 @@ SETTINGS = {
         'EE_SERVICE_ACCOUNT_JSON': os.getenv('EE_SERVICE_ACCOUNT_JSON'),
         'SPARKPOST_API_KEY': os.getenv('SPARKPOST_API_KEY'),
         'API_URL': os.getenv('API_URL'),
-        'API_USER': os.getenv('API_USER'),
+        'API_ADMIN_EMAIL': os.getenv('API_ADMIN_EMAIL'),
         'API_PASSWORD': os.getenv('API_PASSWORD'),
         'EMAIL_USER':os.getenv('EMAIL_USER'),
         'EMAIL_PASSWORD':os.getenv('EMAIL_PASSWORD')

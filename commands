@@ -12,9 +12,9 @@ WHERE course_id = 3;
 ----------------------------
 
 
-run gefapi
+run misland_api
 ----------------------------
-~gefapi.sh develop
+~misland_api.sh develop
 ----------------------------
 
 
@@ -27,7 +27,7 @@ install latest updates of qgis plugin
 notes
 ------
 -ensure script_log id is serial datatype and primary key constraint
--set entrypoint.sh and gefapi.sh from CRLF to LF line endings using Visual Studio or Gitbash
+-set entrypoint.sh and misland_api.sh from CRLF to LF line endings using Visual Studio or Gitbash
 -set entrypoint.sh from #!/bin/bash to #!/bin/sh at the top
 -use encode.py to encode google earth engine service key json to base64
 

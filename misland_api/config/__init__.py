@@ -1,4 +1,4 @@
-"""GEFAPI CONFIG MODULE"""
+"""MISLANDAPI CONFIG MODULE"""
 
 from __future__ import absolute_import
 from __future__ import division

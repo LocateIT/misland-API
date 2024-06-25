@@ -20,6 +20,7 @@ from misland_api.errors import UserNotFound, UserDuplicated, InvalidFile, Script
     ScriptDuplicated, NotAllowed, ExecutionNotFound, ScriptStateNotValid, EmailError
 from flask_cors import CORS, cross_origin
 
+ADMIN_EMAIL = SETTINGS.get('environment', {})['API_ADMIN_EMAIL']
 
 # SCRIPT CREATION
 @endpoints.route('/script', strict_slashes=False, methods=['POST'])
@@ -197,7 +198,7 @@ def delete_script(script):
     """Delete a script"""
     logging.info('[ROUTER]: Deleting script: '+script)
     identity = current_identity
-    if identity.role != 'ADMIN' and identity.email != 'miswa.grace@gmail.com':
+    if identity.role != 'ADMIN' and identity.email != ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
     try:
         script = ScriptService.delete_script(script, identity)
@@ -289,7 +290,7 @@ def update_execution(execution):
     logging.info('[ROUTER]: Updating execution '+execution)
     body = request.get_json()
     user = current_identity
-    if user.role != 'ADMIN' and user.email != 'miswa.grace@gmail.com':
+    if user.role != 'ADMIN' and user.email != ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
     try:
         execution = ExecutionService.update_execution(body, execution)
@@ -349,7 +350,7 @@ def create_execution_log(execution):
     logging.info('[ROUTER]: Creating execution log for '+execution)
     body = request.get_json()
     user = current_identity
-    if user.role != 'ADMIN' and user.email != 'miswa.grace@gmail.com':
+    if user.role != 'ADMIN' and user.email != ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
     try:
         log = ExecutionService.create_execution_log(body, execution)
@@ -402,7 +403,7 @@ def get_users():
     include = request.args.get('include')
     include = include.split(',') if include else []
     identity = current_identity
-    if identity.role != 'ADMIN' and identity.email != 'miswa.grace@gmail.com':
+    if identity.role != 'ADMIN' and identity.email != ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
     try:
         users = UserService.get_users()
@@ -421,7 +422,7 @@ def get_user(user):
     include = request.args.get('include')
     include = include.split(',') if include else []
     identity = current_identity
-    if identity.role != 'ADMIN' and identity.email != 'miswa.grace@gmail.com':
+    if identity.role != 'ADMIN' and identity.email != ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
     try:
         user = UserService.get_user(user)
@@ -522,7 +523,7 @@ def update_user(user):
     logging.info('[ROUTER]: Updating user'+user)
     body = request.get_json()
     identity = current_identity
-    if identity.role != 'ADMIN' and identity.email != 'miswa.grace@gmail.com':
+    if identity.role != 'ADMIN' and identity.email != ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
     try:
         user = UserService.update_user(body, user)
@@ -542,9 +543,9 @@ def delete_user(user):
     """Delete an user"""
     logging.info('[ROUTER]: Deleting user'+user)
     identity = current_identity
-    if user == 'miswa.grace@gmail.com':
+    if user == ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
-    if identity.role != 'ADMIN' and identity.email != 'miswa.grace@gmail.com':
+    if identity.role != 'ADMIN' and identity.email != ADMIN_EMAIL:
         return error(status=403, detail='Forbidden')
     try:
         user = UserService.delete_user(user)

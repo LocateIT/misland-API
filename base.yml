@@ -2,6 +2,6 @@ version: '3.8'
 
 services:
     base:
-        image: misland_api:v4
+        image: misland_api:v5
         environment:
           - PORT=3000

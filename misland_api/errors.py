@@ -1,4 +1,4 @@
-"""GEF API ERRORS"""
+"""MISLAND API ERRORS"""
 
 
 class Error(Exception):

@@ -22,6 +22,8 @@ from misland_api.models import Script, ScriptLog
 from misland_api.config import SETTINGS
 from misland_api.errors import InvalidFile, ScriptNotFound, ScriptDuplicated, NotAllowed
 
+ADMIN_EMAIL = SETTINGS.get('environment', {})['API_ADMIN_EMAIL']
+
 
 def allowed_file(filename):
     if len(filename.rsplit('.')) > 2:
@@ -101,7 +103,7 @@ class ScriptService(object):
     def get_scripts(user):
         logging.info('[SERVICE]: Getting scripts')
         logging.info('[DB]: QUERY')
-        if user.role == 'ADMIN':
+        if user.role == 'ADMIN' or user.email == ADMIN_EMAIL:
             scripts = Script.query.all()
             return scripts
         else:
@@ -113,7 +115,7 @@ class ScriptService(object):
     def get_script(script_id, user='fromservice'):
         logging.info('[SERVICE]: Getting script: '+script_id)
         logging.info('[DB]: QUERY')
-        if user == 'fromservice' or user.role == 'ADMIN':
+        if user == 'fromservice' or user.role == 'ADMIN' or user.email == ADMIN_EMAIL:
             try:
                 val = UUID(script_id, version=4)
                 script = Script.query.filter_by(id=script_id).first()
@@ -167,7 +169,7 @@ class ScriptService(object):
         script = ScriptService.get_script(script_id, user)
         if not script:
             raise ScriptNotFound(message='Script with id '+script_id+' does not exist')
-        if user.role == 'ADMIN' or user.email == 'miswa.grace@gmail.com' or user.id == script.user_id:
+        if user.role == 'ADMIN' or user.email == ADMIN_EMAIL or user.id == script.user_id:
             return ScriptService.create_script(sent_file, user, script)
         raise NotAllowed(message='Operation not allowed to this user')
 
@@ -192,7 +194,7 @@ class ScriptService(object):
     @staticmethod
     def publish_script(script_id, user):
         logging.info('[SERVICE]: Publishing script: '+script_id)
-        if user.role == 'ADMIN':
+        if user.role == 'ADMIN' or user.email == ADMIN_EMAIL:
             try:
                 val = UUID(script_id, version=4)
                 script = Script.query.filter_by(id=script_id).first()
@@ -228,7 +230,7 @@ class ScriptService(object):
     @staticmethod
     def unpublish_script(script_id, user):
         logging.info('[SERVICE]: Unpublishing script: '+script_id)
-        if user.role == 'ADMIN':
+        if user.role == 'ADMIN' or user.email == ADMIN_EMAIL:
             try:
                 val = UUID(script_id, version=4)
                 script = Script.query.filter_by(id=script_id).first()

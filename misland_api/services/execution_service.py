@@ -17,6 +17,7 @@ from misland_api.services import ScriptService, docker_run, EmailService, UserSe
 from misland_api.config import SETTINGS
 from misland_api.errors import ExecutionNotFound, ScriptNotFound, ScriptStateNotValid
 
+ADMIN_EMAIL = SETTINGS.get('environment', {})['API_ADMIN_EMAIL']
 
 EXECUTION_FINISHED_MAIL_CONTENT = "<p>Thank you for using the MISLAND. The below task has {}. More details on this task are below: </p>\
                                     <ul><li>Task name: {}</li> \
@@ -48,7 +49,7 @@ class ExecutionService(object):
         if not updated_at:
             updated_at = datetime.datetime(2000, 12, 1)
         # Admin
-        if user.role == 'ADMIN':
+        if user.role == 'ADMIN'  or user.email == ADMIN_EMAIL:
             # Target User
             if target_user_id:
                 try:
@@ -107,7 +108,7 @@ class ExecutionService(object):
         logging.info('[SERVICE]: Getting execution '+execution_id)
         logging.info('[DB]: QUERY')
         # user = 'from service' just in case the requests comes from the service
-        if user == 'fromservice' or user.role == 'ADMIN':
+        if user == 'fromservice' or user.role == 'ADMIN' or user.email == ADMIN_EMAIL:
             try:
                 val = UUID(execution_id, version=4)
                 execution = Execution.query.filter_by(id=execution_id).first()
