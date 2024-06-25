@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: gracemiswa/misland_api:v6
+    image: gracemiswa/misland_api:v7
     ports:
       - "3000:3000"
     env_file:
@@ -12,7 +12,7 @@ services:
       - ./misland_api:/opt/misland-api-api/misland_api
       - ./migrations:/opt/misland-api/migrations
       - ./data/scripts:/data/scripts
-      - /var/run/docker.sock:/tmp/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
     deploy:
       replicas: 1
       restart_policy:
@@ -28,14 +28,14 @@ services:
       - PORT=3000
 
   worker:
-    image: gracemiswa/misland_api:v6
+    image: gracemiswa/misland_api:v7
     env_file:
       - prod.env
     command: worker
     volumes:
       - ./misland_api:/opt/misland-api/misland_api
       - ./migrations:/opt/misland-api/migrations
-      - /var/run/docker.sock:/tmp/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
       - ./data/scripts:/data/scripts
     deploy:
       replicas: 1

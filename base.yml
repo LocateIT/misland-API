@@ -2,6 +2,6 @@ version: '3.8'
 
 services:
     base:
-        image: gracemiswa/misland_api:v6
+        image: gracemiswa/misland_api:v7
         environment:
           - PORT=3000

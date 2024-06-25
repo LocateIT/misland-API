@@ -5,9 +5,10 @@ ENV USER misland-api
 
 RUN apk update && apk upgrade && \
    apk add --no-cache --update bash git openssl-dev build-base alpine-sdk \
-   libffi-dev postgresql-dev gcc python3-dev musl-dev
+   libffi-dev postgresql-dev gcc python3-dev musl-dev docker
 
-RUN addgroup $USER && adduser -s /bin/bash -D -G $USER $USER
+# Add user and group
+RUN addgroup -S $USER && adduser -S -G $USER $USER
 
 RUN apk add --no-cache --update py3-pip
 RUN pip install --upgrade pip
@@ -22,7 +23,6 @@ RUN cd /opt/$NAME && pip install -r requirements.txt
 COPY entrypoint.sh /opt/$NAME/entrypoint.sh
 COPY main.py /opt/$NAME/main.py
 COPY gunicorn.py /opt/$NAME/gunicorn.py
-# COPY config.json /root/.docker/config.json
 
 # Copy the application folder inside the container
 WORKDIR /opt/$NAME
@@ -30,17 +30,26 @@ WORKDIR /opt/$NAME
 COPY ./misland_api /opt/$NAME/misland_api
 COPY ./migrations /opt/$NAME/migrations
 COPY ./tests /opt/$NAME/tests
+
+# Change ownership of necessary directories
 RUN chown -R $USER:$USER /opt/$NAME
-RUN chown -R  $USER:$USER /var/log/
-RUN chown -R  $USER:$USER /var/run/
+RUN chown -R $USER:$USER /var/log/
+RUN chown -R $USER:$USER /var/run/
+
+# Add user to docker group
+RUN addgroup $USER docker
+
 # Tell Docker we are going to use this ports
 EXPOSE 3000
-USER root
-# USER $USER
 
 # install docker-compose wait
 ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.12.0/wait /wait
 RUN chmod +x /wait
 
+# Switch to the user
+USER $USER
+
+
+
 # Launch script
-ENTRYPOINT ["sh","./entrypoint.sh"]
+ENTRYPOINT ["sh", "./entrypoint.sh"]
