@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: misland_api:v5
+    image: misland_api
     ports:
       - "3000:3000"
     env_file:
@@ -14,7 +14,7 @@ services:
       - ./data/scripts:/data/scripts
       - /var/run/docker.sock:/tmp/docker.sock
     deploy:
-      replicas: 1
+      replicas: 3
       restart_policy:
         condition: any
     depends_on:
@@ -28,7 +28,7 @@ services:
       - PORT=3000
 
   worker:
-    image: misland_api:v5
+    image: misland_api
     env_file:
       - prod.env
     command: worker
