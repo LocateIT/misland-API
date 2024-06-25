@@ -6,8 +6,8 @@ from __future__ import print_function
 import datetime
 import uuid
 
-from gefapi.models import GUID
-from gefapi import db
+from misland_api.models import GUID
+from misland_api import db
 db.GUID = GUID
 
 

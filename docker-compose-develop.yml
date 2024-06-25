@@ -5,48 +5,54 @@ services:
       extends:
         file: base.yml
         service: base
-      container_name: gef-api-develop
+      container_name: misland-api-develop
       ports:
         - "3000:3000"
       env_file:
         - develop.env
       command: develop
       volumes:
-        - ./gefapi:/opt/gef-api/gefapi
-        - ./migrations:/opt/gef-api/migrations
+        - ./misland_api:/opt/misland-api-api/misland_api
+        - ./migrations:/opt/misland-api/migrations
         - /var/run/docker.sock:/tmp/docker.sock
-        - /data/scripts:/data/scripts
+        - ./data/scripts:/data/scripts
       restart: always
       links:
-        - database
+        - misland-api-database
         - registry
         - redis
+      environment:
+        - WAIT_HOSTS=misland-api-database:5432
+        - WAIT_TIMEOUT=120
     worker:
       extends:
         file: base.yml
         service: base
-      container_name: gef-api-worker-develop
+      container_name: misland-api-worker-develop
       env_file:
         - develop.env
       command: worker
       volumes:
-        - ./gefapi:/opt/gef-api/gefapi
-        - ./migrations:/opt/gef-api/migrations
+        - ./misland_api:/opt/misland-api/misland_api
+        - ./migrations:/opt/misland-api/migrations
         - /var/run/docker.sock:/tmp/docker.sock
-        - /data/scripts:/data/scripts
+        - ./data/scripts:/data/scripts
       restart: always
       links:
-        - database
+        - misland-api-database
         - registry
         - redis
+      environment:
+        - WAIT_HOSTS=misland-api-database:5432
+        - WAIT_TIMEOUT=120
 
-    database:
+    misland-api-database:
       image: postgres:9.6
-      container_name: gef-api-database
+      container_name: misland-api-database
       environment:
             POSTGRES_PASSWORD: postgres
             POSTGRES_USER: postgres
-            POSTGRES_DB: gef
+            POSTGRES_DB: mislanddb
       volumes:
           - postgres-data:/var/lib/postgresql/data
       ports:
@@ -55,18 +61,18 @@ services:
 
     registry:
       image: registry:2.6.1
-      container_name: gef-api-registry
+      container_name: misland-api-registry
       env_file:
         - develop.env
       ports:
-        - 5000:5000
+        - 5100:5000
       restart: always          
       # volumes:
       #   - /var/lib/registry:/var/lib/registry
 
     redis:
         image: redis
-        container_name: gef-api-redis
+        container_name: misland-api-redis
         env_file:
           - develop.env
         ports:
@@ -75,4 +81,3 @@ services:
 
 volumes:
     postgres-data:
-        external: true

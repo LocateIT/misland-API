@@ -1,6 +1,6 @@
-initialize gef database on cmd
+initialize misland database on cmd
 ----------------------------------------------------
--docker exec -it gef-api-database psql -U postgres gef
+-docker exec -it misland-api-database psql -U postgres misland
 ----------------------------------------------------
 
 
@@ -30,3 +30,16 @@ notes
 -set entrypoint.sh and gefapi.sh from CRLF to LF line endings using Visual Studio or Gitbash
 -set entrypoint.sh from #!/bin/bash to #!/bin/sh at the top
 -use encode.py to encode google earth engine service key json to base64
+
+
+registry
+----
+docker build -t misland_api:v1 .
+
+docker tag misland_api:v1 gracemiswa/misland_api:v1  
+
+docker push gracemiswa/misland_api:v1
+
+docker stack deploy -c docker-compose.yml misland-stack
+
+docker service ps misland-stack_{SERVICE}

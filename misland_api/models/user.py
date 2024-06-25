@@ -10,8 +10,8 @@ import uuid
 from werkzeug.security import generate_password_hash, \
      check_password_hash
 
-from gefapi.models import GUID
-from gefapi import db
+from misland_api.models import GUID
+from misland_api import db
 db.GUID = GUID
 
 

@@ -3,8 +3,8 @@
 import logging
 import re
 
-from gefapi.routes.api.v1 import error
-from gefapi.config import SETTINGS
+from misland_api.routes.api.v1 import error
+from misland_api.config import SETTINGS
 
 from functools import wraps
 from flask import request, jsonify

@@ -1,14 +1,12 @@
-# GEF API
+# MISLAND API
 
-This project belongs to the GEF Project.
+This repo implements the API of the MISLAND Environment. It implements the Scripts, Users and Executions management.
 
-This repo implements the API of the GEF Environment. It implements the Scripts, Users and Executions management.
+Check out the other parts of the MISLAND project:
 
-Check out the other parts of the GEF project:
-
-- The Command Line Interface. It allows to create and test custom scripts locally. It also can be used to publish the scripts to the GEF Environment [GEF CLI](https://github.com/Vizzuality/GEF-CLI)
-- The GEF core platform [GEF Environment](https://github.com/Vizzuality/GEF-Environment)
-- A web app to explore and manage the API entities [GEF UI](https://github.com/Vizzuality/GEF-UI)
+- The Command Line Interface. It allows to create and test custom scripts locally. It also can be used to publish the scripts to the MISLAND Environment [MISLAND CLI](https://github.com/LocateIT/misland-CLI)
+- The MISLAND core platform [MISLAND Environment](https://github.com/LocateIT/misland-Environment)
+- A web app to explore and manage the API entities [MISLAND UI](https://github.com/LocateIT/misland-UI)
 
 ## Getting started
 
@@ -19,7 +17,7 @@ You need to install Docker in your machine if you haven't already [Docker](https
 ### Technology
 
 - Docker is used in development and production environment
-- The API is coded in Python 3.6
+- The API is coded in Python 3.9
 - It uses Flask to expose the API Endpoints and handle the HTTP requests
 - It also uses SQLAlchemy as ORM (PostgreSQL)
 - Celery is used to manage the background tasks (Redis)
@@ -34,21 +32,21 @@ Follow the next steps to set up the development environment in your machine.
 1. Clone the repo and navigate to the folder
 
 ```ssh
-git clone https://github.com/Vizzuality/GEF-API
-cd GEF-API
+git clone https://github.com/LocateIT/misland-api
+cd misland-api
 ```
 
-2. Run the gefapi.sh shell script in development mode.
+2. Run the mislandapi.sh shell script in development mode.
 
 ```ssh
-./gefapi.sh develop
+./mislandapi.sh develop
 ```
 
 If this is the first time you run it, it may take a few minutes.
 
 ### Code structure
 
-The API has been packed in a Python module (gefapi). It creates and exposes a WSGI application. The core functionality
+The API has been packed in a Python module (mislandapi). It creates and exposes a WSGI application. The core functionality
 has been divided in three different layers or submodules (Routes, Services and Models).
 
 There are also some generic submodules that manage the request validations, HTTP errors and the background tasks manager.

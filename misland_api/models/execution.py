@@ -7,8 +7,8 @@ from __future__ import print_function
 import datetime
 import uuid
 
-from gefapi import db
-from gefapi.models import GUID
+from misland_api import db
+from misland_api.models import GUID
 from sqlalchemy.dialects.postgresql import JSONB
 db.GUID = GUID
 

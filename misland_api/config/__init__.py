@@ -5,7 +5,7 @@ from __future__ import division
 from __future__ import print_function
 
 import os
-from gefapi.config import base, staging, prod
+from misland_api.config import base, staging, prod
 
 SETTINGS = base.SETTINGS
 

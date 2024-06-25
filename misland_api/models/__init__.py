@@ -50,8 +50,8 @@ class GUID(TypeDecorator):
             return uuid.UUID(value)
 
 
-from gefapi.models.user import User
-from gefapi.models.script import Script
-from gefapi.models.execution import Execution
-from gefapi.models.script_log import ScriptLog
-from gefapi.models.execution_log import ExecutionLog
+from misland_api.models.user import User
+from misland_api.models.script import Script
+from misland_api.models.execution import Execution
+from misland_api.models.script_log import ScriptLog
+from misland_api.models.execution_log import ExecutionLog

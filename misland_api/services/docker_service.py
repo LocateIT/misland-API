@@ -11,9 +11,9 @@ import docker
 
 import time
 
-from gefapi import db, celery
-from gefapi.models import Script, ScriptLog, Execution
-from gefapi.config import SETTINGS
+from misland_api import db, celery
+from misland_api.models import Script, ScriptLog, Execution
+from misland_api.config import SETTINGS
 
 
 REGISTRY_URL = SETTINGS.get('REGISTRY_URL')

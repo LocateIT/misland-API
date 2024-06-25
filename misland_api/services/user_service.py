@@ -10,11 +10,11 @@ import string
 import logging
 from uuid import UUID
 
-from gefapi import db
-from gefapi.models import User
-from gefapi.errors import UserNotFound, UserDuplicated, AuthError, EmailError
-from gefapi.services import EmailService
-from gefapi.config import SETTINGS
+from misland_api import db
+from misland_api.models import User
+from misland_api.errors import UserNotFound, UserDuplicated, AuthError, EmailError
+from misland_api.services import EmailService
+from misland_api.config import SETTINGS
 
 ROLES = SETTINGS.get('ROLES')
 

@@ -6,7 +6,7 @@ from __future__ import print_function
 
 import logging
 
-from gefapi.errors import EmailError
+from misland_api.errors import EmailError
 # from sparkpost import SparkPost
 from flask import Flask
 from flask_mail import Mail, Message

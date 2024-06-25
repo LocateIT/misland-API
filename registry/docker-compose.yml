@@ -1,14 +1,18 @@
-version: '2'
+version: '3.8'
 
 services:
-    registry:
-        image: registry:2.7.1
-        container_name: registry
-        ports:
-          - 5000:5000
-        restart: always
-        volumes:
-            - registry-data:/var/lib/registry
+    misland-api-registry:
+      image: registry:2.7
+      ports:
+        - "5000:5000"
+      deploy:
+        replicas: 1
+        restart_policy:
+          condition: any
+      volumes:
+        - registry-data::/var/lib/registry
+      networks:
+        - misland-network
 
 volumes:
     registry-data:

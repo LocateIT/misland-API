@@ -1,8 +1,7 @@
-FROM python:3.6-alpine
-MAINTAINER Sergio Gordillo sergio.gordillo@vizzuality.com
+FROM python:3.9-alpine
 
-ENV NAME gef-api
-ENV USER gef-api
+ENV NAME misland-api
+ENV USER misland-api
 
 RUN apk update && apk upgrade && \
    apk add --no-cache --update bash git openssl-dev build-base alpine-sdk \
@@ -10,7 +9,9 @@ RUN apk update && apk upgrade && \
 
 RUN addgroup $USER && adduser -s /bin/bash -D -G $USER $USER
 
-RUN easy_install pip && pip install --upgrade pip
+RUN apk add --no-cache --update py3-pip
+RUN pip install --upgrade pip
+
 RUN pip install virtualenv gunicorn gevent
 
 RUN mkdir -p /opt/$NAME
@@ -26,7 +27,7 @@ COPY gunicorn.py /opt/$NAME/gunicorn.py
 # Copy the application folder inside the container
 WORKDIR /opt/$NAME
 
-COPY ./gefapi /opt/$NAME/gefapi
+COPY ./misland_api /opt/$NAME/misland_api
 COPY ./migrations /opt/$NAME/migrations
 COPY ./tests /opt/$NAME/tests
 RUN chown -R $USER:$USER /opt/$NAME
@@ -36,6 +37,10 @@ RUN chown -R  $USER:$USER /var/run/
 EXPOSE 3000
 USER root
 # USER $USER
+
+# install docker-compose wait
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.12.0/wait /wait
+RUN chmod +x /wait
 
 # Launch script
 ENTRYPOINT ["sh","./entrypoint.sh"]

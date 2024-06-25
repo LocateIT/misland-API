@@ -6,7 +6,7 @@ from __future__ import print_function
 
 import logging
 
-from gefapi.services import UserService
+from misland_api.services import UserService
 
 
 def authenticate(email, password):

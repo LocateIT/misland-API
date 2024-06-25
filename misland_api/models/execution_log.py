@@ -1,4 +1,4 @@
-"""SCRIPT LOG MODEL"""
+"""EXECUTION LOG MODEL"""
 
 from __future__ import absolute_import
 from __future__ import division
@@ -7,31 +7,34 @@ from __future__ import print_function
 import datetime
 import uuid
 
-from gefapi.models import GUID
-from gefapi import db
+from misland_api.models import GUID
+from misland_api import db
 db.GUID = GUID
 
 
-class ScriptLog(db.Model):
-    """ScriptLog Model"""
-    __tablename__ = 'script_log'
+class ExecutionLog(db.Model):
+    """ExecutionLog Model"""
+    __tablename__ = 'execution_log'
     id = db.Column(db.Integer(), primary_key=True)
     text = db.Column(db.Text())
+    level = db.Column(db.String(80), nullable=False, default='DEBUG')
     register_date = db.Column(db.DateTime(), default=datetime.datetime.utcnow)
-    script_id = db.Column(db.GUID(), db.ForeignKey('script.id'))
+    execution_id = db.Column(db.GUID(), db.ForeignKey('execution.id'))
 
-    def __init__(self, text, script_id):
+    def __init__(self, text, level, execution_id):
         self.text = text
-        self.script_id = script_id
+        self.level = level
+        self.execution_id = execution_id
 
     def __repr__(self):
-        return '<ScriptLog %r>' % self.id
+        return '<ExecutionLog %r>' % self.id
 
     def serialize(self):
         """Return object data in easily serializeable format"""
         return {
             'id': self.id,
             'text': self.text,
+            'level': self.level,
             'register_date': self.register_date.isoformat(),
-            'script_id': self.script_id
+            'execution_id': self.execution_id
         }

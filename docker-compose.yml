@@ -1,42 +1,99 @@
-version: '2'
+version: '3.8'
 
 services:
-    prod:
-      extends:
-        file: base.yml
-        service: base
-      container_name: gef-api
-      ports:
-        - "3000:3000"
-      env_file:
-        - prod.env
-      volumes:
-        - /data/scripts:/data/scripts
-      command: develop
-      restart: always
-      links:
-        - redis
+  app:
+    image: misland_api:v4
+    ports:
+      - "3000:3000"
+    env_file:
+      - prod.env
+    command: start
+    volumes:
+      - ./misland_api:/opt/misland-api-api/misland_api
+      - ./migrations:/opt/misland-api/migrations
+      - ./data/scripts:/data/scripts
+      - /var/run/docker.sock:/tmp/docker.sock
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    depends_on:
+      - misland-api-database
+      - misland-api-redis
+    networks:
+      - misland-network
+    environment:
+      - WAIT_HOSTS=misland-api-database:5432
+      - WAIT_TIMEOUT=120
+      - PORT=3000
 
-    worker:
-      extends:
-        file: base.yml
-        service: base
-      container_name: gef-api-worker
-      env_file:
-        - prod.env
-      environment:
-        FLASK_APP: main.py
-      command: worker
-      volumes:
-        - /var/run/docker.sock:/tmp/docker.sock
-        - /data/scripts:/data/scripts
-      restart: always
-      links:
-        - redis
+  worker:
+    image: misland_api:v4
+    env_file:
+      - prod.env
+    command: worker
+    volumes:
+      - ./misland_api:/opt/misland-api/misland_api
+      - ./migrations:/opt/misland-api/migrations
+      - /var/run/docker.sock:/tmp/docker.sock
+      - ./data/scripts:/data/scripts
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    depends_on:
+      - misland-api-database
+      - misland-api-redis
+    networks:
+      - misland-network
+    environment:
+      - WAIT_HOSTS=misland-api-database:5432
+      - WAIT_TIMEOUT=120
+      - PORT=3000
 
-    redis:
-      image: redis
-      container_name: gef-api-redis
-      ports:
-        - 6379
-      restart: always
+  misland-api-database:
+    image: postgres:12
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - prod.env
+    ports:
+      - "5432:5432"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    networks:
+      - misland-network
+
+  misland-api-registry:
+    image: registry:2.7
+    ports:
+      - "5000:5000"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    volumes:
+      - registry-data:/var/lib/registry
+    networks:
+      - misland-network
+
+  misland-api-redis:
+    image: redis
+    ports:
+      - "6379:6379"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    networks:
+      - misland-network
+
+volumes:
+  postgres-data:
+  registry-data:
+
+networks:
+  misland-network:
+    driver: overlay

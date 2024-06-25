@@ -1,6 +1,6 @@
 
 import os
-from gefapi import app
+from misland_api import app
 
 
 # This is only used when running locally. When running live, Gunicorn runs

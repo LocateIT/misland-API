@@ -10,13 +10,13 @@ import datetime
 from flask import jsonify, request, send_from_directory, Response, json
 from flask_jwt import jwt_required, current_identity
 
-from gefapi.config import SETTINGS
-from gefapi.routes.api.v1 import endpoints, error
-from gefapi.validators import validate_user_creation, validate_user_update, \
+from misland_api.config import SETTINGS
+from misland_api.routes.api.v1 import endpoints, error
+from misland_api.validators import validate_user_creation, validate_user_update, \
     validate_file, validate_execution_update, validate_execution_log_creation, \
     validate_profile_update
-from gefapi.services import UserService, ScriptService, ExecutionService
-from gefapi.errors import UserNotFound, UserDuplicated, InvalidFile, ScriptNotFound, \
+from misland_api.services import UserService, ScriptService, ExecutionService
+from misland_api.errors import UserNotFound, UserDuplicated, InvalidFile, ScriptNotFound, \
     ScriptDuplicated, NotAllowed, ExecutionNotFound, ScriptStateNotValid, EmailError
 from flask_cors import CORS, cross_origin
 

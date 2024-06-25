@@ -15,4 +15,4 @@ def error(status=400, detail='Bad Request'):
     }), status
 
 endpoints = Blueprint('endpoints', __name__)
-import gefapi.routes.api.v1.gef_api_router
+import misland_api.routes.api.v1.gef_api_router

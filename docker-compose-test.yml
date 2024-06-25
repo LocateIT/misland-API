@@ -2,6 +2,6 @@ test:
   extends:
     file: base.yml
     service: base
-  container_name: gef-api-test
+  container_name: misland-api-test
   command: test
   restart: always

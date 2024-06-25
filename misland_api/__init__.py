@@ -12,8 +12,8 @@ from flask import Flask, request, current_app
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS, cross_origin
-from gefapi.config import SETTINGS
-from gefapi.celery import make_celery
+from misland_api.config import SETTINGS
+from misland_api.celery import make_celery
 from flask_jwt import JWTError
 
 logging.basicConfig(
@@ -28,6 +28,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Config
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = SETTINGS.get('SQLALCHEMY_TRACK_MODIFICATIONS')
 app.config['SQLALCHEMY_DATABASE_URI'] = SETTINGS.get('SQLALCHEMY_DATABASE_URI')
 app.config['SECRET_KEY'] = SETTINGS.get('SECRET_KEY')
 app.config['UPLOAD_FOLDER'] = SETTINGS.get('UPLOAD_FOLDER')
@@ -46,12 +47,12 @@ migrate = Migrate(app, db)
 celery = make_celery(app)
 
 # DB has to be ready!
-from gefapi.routes.api.v1 import endpoints, error
+from misland_api.routes.api.v1 import endpoints, error
 # Blueprint Flask Routing
 app.register_blueprint(endpoints, url_prefix='/api/v1')
 
 from flask_jwt import JWT
-from gefapi.jwt import authenticate, identity
+from misland_api.jwt import authenticate, identity
 # JWT
 jwt = JWT(app, authenticate, identity)
 

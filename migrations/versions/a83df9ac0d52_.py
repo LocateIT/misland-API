@@ -7,7 +7,7 @@ Create Date: 2017-05-17 11:26:29.765458
 """
 from alembic import op
 import sqlalchemy as sa
-from gefapi.models import GUID
+from misland_api.models import GUID
 
 
 # revision identifiers, used by Alembic.

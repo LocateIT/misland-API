@@ -11,11 +11,11 @@ import base64
 import json
 from uuid import UUID
 
-from gefapi import db
-from gefapi.models import Execution, ExecutionLog
-from gefapi.services import ScriptService, docker_run, EmailService, UserService
-from gefapi.config import SETTINGS
-from gefapi.errors import ExecutionNotFound, ScriptNotFound, ScriptStateNotValid
+from misland_api import db
+from misland_api.models import Execution, ExecutionLog
+from misland_api.services import ScriptService, docker_run, EmailService, UserService
+from misland_api.config import SETTINGS
+from misland_api.errors import ExecutionNotFound, ScriptNotFound, ScriptStateNotValid
 
 
 EXECUTION_FINISHED_MAIL_CONTENT = "<p>Thank you for using the MISLAND. The below task has {}. More details on this task are below: </p>\

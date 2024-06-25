@@ -22,7 +22,7 @@ SETTINGS = {
         'EMAIL_PASSWORD':os.getenv('EMAIL_PASSWORD')
     },
     'ROLES': ['ADMIN', 'USER'],
-    'SQLALCHEMY_DATABASE_URI': 'postgresql://'+os.getenv('DATABASE_ENV_POSTGRES_USER')+':'+os.getenv('DATABASE_ENV_POSTGRES_PASSWORD')+'@'+os.getenv('DATABASE_PORT_5432_TCP_ADDR')+':'+os.getenv('DATABASE_PORT_5432_TCP_PORT')+'/'+os.getenv('DATABASE_ENV_POSTGRES_DB'),
+    'SQLALCHEMY_DATABASE_URI': 'postgresql://'+os.getenv('POSTGRES_USER')+':'+os.getenv('POSTGRES_PASSWORD')+'@'+os.getenv('DATABASE_PORT_5432_TCP_ADDR')+':'+os.getenv('DATABASE_PORT_5432_TCP_PORT')+'/'+os.getenv('POSTGRES_DB'),
     'SECRET_KEY': 'mysecret',
     'DOCKER_URL': os.getenv('DOCKER_URL'),
     'REGISTRY_URL': 'localhost:'+os.getenv('REGISTRY_PORT_5000_TCP_PORT', ''),

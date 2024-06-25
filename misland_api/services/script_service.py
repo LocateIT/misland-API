@@ -16,11 +16,11 @@ from werkzeug.utils import secure_filename
 from slugify import slugify
 from sqlalchemy import or_
 
-from gefapi.services import docker_build
-from gefapi import db
-from gefapi.models import Script, ScriptLog
-from gefapi.config import SETTINGS
-from gefapi.errors import InvalidFile, ScriptNotFound, ScriptDuplicated, NotAllowed
+from misland_api.services import docker_build
+from misland_api import db
+from misland_api.models import Script, ScriptLog
+from misland_api.config import SETTINGS
+from misland_api.errors import InvalidFile, ScriptNotFound, ScriptDuplicated, NotAllowed
 
 
 def allowed_file(filename):
