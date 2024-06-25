@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: misland_api
+    image: gracemiswa/misland_api
     ports:
       - "3000:3000"
     env_file:
@@ -28,7 +28,7 @@ services:
       - PORT=3000
 
   worker:
-    image: misland_api
+    image: gracemiswa/misland_api
     env_file:
       - prod.env
     command: worker
