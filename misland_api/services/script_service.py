@@ -80,7 +80,7 @@ class ScriptService(object):
             # Updating existing entity
             logging.debug(script_name)
             script.name = script_name
-            script.updated_at = datetime.datetime.utcnow()
+            script.updated_at = datetime.datetime.now()
         # TO DB
         try:
             logging.info('[DB]: ADD')

@@ -134,7 +134,7 @@ class UserService(object):
         current_user.name = user.get('name', current_user.name)
         current_user.country = user.get('country', current_user.country)
         current_user.institution = user.get('institution', current_user.institution)
-        current_user.updated_at = ''
+        current_user.updated_at = datetime.datetime.now()
         try:
             logging.info('[DB]: ADD')
             db.session.add(current_user)

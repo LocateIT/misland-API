@@ -1,6 +1,12 @@
 import os
 from datetime import timedelta
 
+def str_to_bool(value):
+    if value is None:
+        return False
+    return value.lower() in ('true', '1', 't', 'y', 'yes')
+
+
 SETTINGS = {
     'logging': {
         'level': 'INFO'
@@ -21,8 +27,8 @@ SETTINGS = {
         'EMAIL_PASSWORD':os.getenv('EMAIL_PASSWORD'),
         'EMAIL_SERVER':os.getenv('EMAIL_SERVER'),
         'EMAIL_PORT':os.getenv('EMAIL_PORT'),
-        'EMAIL_USE_TLS':os.getenv('EMAIL_USE_TLS'),
-        'EMAIL_USE_SSL':os.getenv('EMAIL_USE_SSL')
+        'EMAIL_USE_TLS':str_to_bool(os.getenv('EMAIL_USE_TLS', 'False')),
+        'EMAIL_USE_SSL':str_to_bool(os.getenv('EMAIL_USE_SSL', 'True'))
     },
     'ROLES': ['ADMIN', 'USER'],
     'SQLALCHEMY_DATABASE_URI': 'postgresql://'+os.getenv('POSTGRES_USER')+':'+os.getenv('POSTGRES_PASSWORD')+'@'+os.getenv('DATABASE_PORT_5432_TCP_ADDR')+':'+os.getenv('DATABASE_PORT_5432_TCP_PORT')+'/'+os.getenv('POSTGRES_DB'),

@@ -23,12 +23,12 @@ mail_settings = {
     "MAIL_USE_TLS":EMAIL_CONFIGS['EMAIL_USE_TLS'],
     "MAIL_USE_SSL": EMAIL_CONFIGS['EMAIL_USE_SSL'],
     "MAIL_USERNAME": EMAIL_CONFIGS['EMAIL_USER'],
-    "MAIL_PASSWORD": EMAIL_CONFIGS['EMAIL_PASSWORD']
+    "MAIL_PASSWORD": EMAIL_CONFIGS['EMAIL_PASSWORD'],
 }
 
 app.config.update(mail_settings)
 mail = Mail(app)
-
+logging.info(mail_settings)
 class EmailService(object):
     """MailService Class"""
     
