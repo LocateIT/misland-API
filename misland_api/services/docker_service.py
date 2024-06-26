@@ -19,7 +19,7 @@ from misland_api.config import SETTINGS
 REGISTRY_URL = SETTINGS.get('REGISTRY_URL')
 DOCKER_URL = SETTINGS.get('DOCKER_URL')
 
-api_client = docker.APIClient(base_url=DOCKER_URL)
+api_client = docker.APIClient(base_url=DOCKER_URL, version='3.8')
 docker_client = docker.DockerClient(base_url=DOCKER_URL)
 
 

@@ -1,55 +1,34 @@
 FROM python:3.9-alpine
 
-ENV NAME misland-api
-ENV USER misland-api
+USER root
 
 RUN apk update && apk upgrade && \
-   apk add --no-cache --update bash git openssl-dev build-base alpine-sdk \
-   libffi-dev postgresql-dev gcc python3-dev musl-dev docker
-
-# Add user and group
-RUN addgroup -S $USER && adduser -S -G $USER $USER
+    apk add --no-cache --update bash git openssl-dev build-base alpine-sdk \
+    libffi-dev postgresql-dev gcc python3-dev musl-dev
 
 RUN apk add --no-cache --update py3-pip
 RUN pip install --upgrade pip
 
 RUN pip install virtualenv gunicorn gevent
 
-RUN mkdir -p /opt/$NAME
-RUN cd /opt/$NAME && virtualenv venv && source venv/bin/activate
-COPY requirements.txt /opt/$NAME/requirements.txt
-RUN cd /opt/$NAME && pip install -r requirements.txt
+RUN mkdir -p /opt/misland-api
+RUN cd /opt/misland-api && virtualenv venv && source venv/bin/activate
+COPY requirements.txt /opt/misland-api/requirements.txt
+RUN cd /opt/misland-api && pip install -r requirements.txt
 
-COPY entrypoint.sh /opt/$NAME/entrypoint.sh
-COPY main.py /opt/$NAME/main.py
-COPY gunicorn.py /opt/$NAME/gunicorn.py
+COPY entrypoint.sh /opt/misland-api/entrypoint.sh
+COPY main.py /opt/misland-api/main.py
+COPY gunicorn.py /opt/misland-api/gunicorn.py
 
 # Copy the application folder inside the container
-WORKDIR /opt/$NAME
+WORKDIR /opt/misland-api
 
-COPY ./misland_api /opt/$NAME/misland_api
-COPY ./migrations /opt/$NAME/migrations
-COPY ./tests /opt/$NAME/tests
+COPY ./misland_api /opt/misland-api/misland_api
+COPY ./migrations /opt/misland-api/migrations
+COPY ./tests /opt/misland-api/tests
 
-# Change ownership of necessary directories
-RUN chown -R $USER:$USER /opt/$NAME
-RUN chown -R $USER:$USER /var/log/
-RUN chown -R $USER:$USER /var/run/
-
-# Add user to docker group
-RUN addgroup $USER docker
-
-# Tell Docker we are going to use this ports
+# Tell Docker we are going to use these ports
 EXPOSE 3000
-
-# install docker-compose wait
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.12.0/wait /wait
-RUN chmod +x /wait
-
-# Switch to the user
-USER $USER
-
-
 
 # Launch script
 ENTRYPOINT ["sh", "./entrypoint.sh"]
