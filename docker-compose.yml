@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   app:
+    restart: unless-stopped
     extends:
       file: base.yml
       service: base
@@ -26,6 +27,7 @@ services:
       - PORT=3000
 
   worker:
+    restart: unless-stopped
     extends:
       file: base.yml
       service: base
@@ -48,6 +50,7 @@ services:
       - PORT=3000
 
   misland-api-database:
+    restart: unless-stopped
     image: postgres:12
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -59,6 +62,7 @@ services:
       - misland-network
 
   misland-api-registry:
+    restart: unless-stopped
     image: registry:2.7
     ports:
       - "5100:5000"
@@ -68,20 +72,10 @@ services:
       - misland-network
 
   misland-api-redis:
+    restart: unless-stopped
     image: redis
     ports:
       - "6379:6379"
-    networks:
-      - misland-network
-
-  nginx:
-    image: nginx:latest
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - app
     networks:
       - misland-network
 
